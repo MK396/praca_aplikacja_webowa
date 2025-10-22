@@ -6,30 +6,22 @@
     <h1>Wstaw zdjęcie do klasyfikacji</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <input type="file" name="image" accept="image/*" onchange="showImage(event)">
-        <img id="show" src="#" alt="Podgląd obrazu">
+        <input type="file" name="images" accept="image/*" multiple>
         <button type="submit">Rozpoznaj</button>
     </form>
-    {% if result %}
-    <div class="result">
-        <h2>{{ result }}</h2>
-        <p>{{ confidence }}% pewności</p>
+
+    {% if results %}
+    <div class="results">
+        {% for res in results %}
+        <div class="result">
+            {% if res.image_url %}
+            <img class="uploaded-image" src="{{ res.image_url }}" alt="Wysłany obraz">
+            {% endif %}
+            <h2>{{ res.result }}</h2>
+            <p>{{ res.confidence }}% pewności</p>
+        </div>
+        {% endfor %}
     </div>
     {% endif %}
 </div>
-
-<script>
-    function showImage(event) {
-        const show = document.getElementById('show');
-        const file = event.target.files[0];
-
-        if (file) {
-            show.src = URL.createObjectURL(file);
-            show.style.display = 'block';}
-        else {
-            show.src = '#';
-            show.style.display = 'none';}
-    }
-</script>
-
 {% endblock %}

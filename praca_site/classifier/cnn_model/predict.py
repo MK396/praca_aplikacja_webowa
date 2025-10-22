@@ -2,9 +2,10 @@ import os
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
+from tensorflow.keras.applications.resnet_v2 import preprocess_input
 
 # __file__ - ścieżka aktualnego pliku
-model_path = os.path.join(os.path.dirname(__file__), "my_model_mobilenetv3.keras")
+model_path = os.path.join(os.path.dirname(__file__), "resnet50_best_3.keras")
 
 model = load_model(model_path)
 
@@ -19,6 +20,7 @@ def predict_image(img_path):
     img_array = np.expand_dims(img_array, axis=0)
     # jesli trenowano z rescale = 1./255 to odkomentuj
     #img_array = img_array/255.0
+    img_array = preprocess_input(img_array)
 
     # wykonanie predykcji, zwraca wektor prawdopodobieństw
     predictions = model.predict(img_array)

@@ -1,0 +1,4 @@
+.env
+.venv
+classifier/cnn_model/resnet50_best_3.keras
+classifier/templates/classifier/classify_z_podgladem.html

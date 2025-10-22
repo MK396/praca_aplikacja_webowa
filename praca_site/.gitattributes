@@ -1,0 +1,2 @@
+praca_site/classifier/cnn_model/resnet50_best_3.keras filter=lfs diff=lfs merge=lfs -text
+classifier/cnn_model/resnet50_best_3.keras filter=lfs diff=lfs merge=lfs -text
