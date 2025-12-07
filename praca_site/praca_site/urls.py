@@ -24,5 +24,4 @@ urlpatterns = [
     path('', include('classifier.urls')),
     path('', views.homepage, name='homepage'),
     path('', include('segregation.urls')),
-    path('', include('games.urls')),
 ]

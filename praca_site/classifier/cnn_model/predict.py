@@ -14,7 +14,6 @@ class_labels = ['Biodegradowalne', 'Elektroodpady', 'Szkło', 'Zmieszane', 'Papi
 
 
 def predict_image(img, model_choice):
-    # Upewnij się, że obraz ma odpowiedni rozmiar
     if model_choice == 'resnet':
         img = img.resize((128, 128))
         img_array = image.img_to_array(img)

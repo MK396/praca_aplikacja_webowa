@@ -271,7 +271,7 @@ main {
 
 /* Ukryta treść */
 .bin-info {
-    display: none; /* domyślnie ukryta */
+    display: none;  /* domyślnie ukryta */
     text-align: left;
     font-size: 0.9rem;
     margin-top: 10px;
@@ -286,7 +286,7 @@ main {
 
     .bin-card {
         max-width: 150px;     /* zmniejszona szerokość */
-        padding: 6px;         /* mniejszy odstęp wewnętrzny */
+        padding: 6px;         /* mniejszy odstęp w kontenerze */
     }
 
     .bin-card h2 {
@@ -367,8 +367,6 @@ main {
 
 
 
-
-
 /* Hamburger menu */
 .hamburger {
     display: none;
@@ -388,8 +386,6 @@ main {
     border-radius: 3px;
 }
 
-
-/* NAVBAR */
 
 /* Linki schowane w trybie mobile */
 .navbar.open a {
@@ -418,7 +414,7 @@ main {
     }
 }
 
-/* Responsywność Home */
+
 @media (max-width: 768px) {
     .home-container {
         padding: 25px;         /* mniejszy padding */
