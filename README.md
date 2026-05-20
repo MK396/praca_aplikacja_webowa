@@ -8,7 +8,7 @@ Projekt został stworzony w ramach pracy inżynierskiej.
 
 ## 📸 Demo
 
-
+[demo.webm](https://github.com/user-attachments/assets/0147fc80-cd04-4630-b808-d49f4058ebcc)
 
 ---
 
@@ -22,9 +22,9 @@ Projekt został stworzony w ramach pracy inżynierskiej.
 
 ## 🛠️ Technologie
 
-- **Backend:** Python 3.12, Django  
-- **AI/ML:** TensorFlow, Keras, NumPy  
-- **Frontend:** HTML, CSS  
+- **Backend:** Python 3.12, Django  
+- **AI/ML:** TensorFlow, Keras, NumPy  
+- **Frontend:** HTML, CSS  
 
 ---
 
@@ -34,7 +34,12 @@ Aby uruchomić projekt lokalnie, wykonaj poniższe kroki:
 
 ### 1. Klonowanie repozytorium
 
+Ponieważ projekt zawiera modele sztucznej inteligencji ważące ponad 100 MB, do ich prawidłowego pobrania wymagany jest **Git LFS (Large File Storage)**. 
+
+Upewnij się, że masz go zainstalowanego, aktywuj go, a następnie sklonuj projekt:
+
 ```bash
+git lfs install
 git clone https://github.com/MK396/praca_aplikacja_webowa.git
 cd praca_aplikacja_webowa
 ```
@@ -59,27 +64,22 @@ pip install -r requirements.txt
 ```
 
 ### 4. Konfiguracja zmiennych środowiskowych (.env)
+1. Upewnij się, że znajdujesz się w katalogu `praca_site` (tam, gdzie plik `manage.py`).
+2. Uruchom poniższe polecenie, aby wygenerować bezpieczny klucz kryptograficzny, utworzyć plik `.env` i od razu go w nim zapisać:
 
-Ze względów bezpieczeństwa plik konfiguracyjny `.env` nie jest dołączony do repozytorium.
-
-1. W katalogu głównym projektu `praca_site` utwórz nowy plik o nazwie `.env`.
-2. Wygeneruj bezpieczny, losowy klucz kryptograficzny, uruchamiając w terminalu poniższe polecenie:
-   ```bash
-   python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
-   ```
-3. Skopiuj wyświetlony w terminalu klucz, otwórz plik .env i dodaj do niego poniższą linijkę:
-   ```bash
-   SECRET_KEY = 'tutaj_wklej_wygenerowany_klucz'
-   ```
-   
-5. Uruchomienie serwera
+**Dla Windows:**
+```bash
+python -c "from django.core.management.utils import get_random_secret_key; open('.env', 'w').write(f'SECRET_KEY=\'{get_random_secret_key()}\'\n')"
+```
+**Dla macOS/Linux:**
+```bash
+python3 -c "from django.core.management.utils import get_random_secret_key; open('.env', 'w').write(f'SECRET_KEY=\'{get_random_secret_key()}\'\n')"
+```
+   
+### 5. Uruchomienie serwera
 
 Będąc w katalogu praca_site uruchom serwer za pomocą poniższego polecenia
 ```bash
 python manage.py runserver
 ```
 Aplikacja będzie dostępna pod adresem: http://127.0.0.1:8000/
-
-
-
-
