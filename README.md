@@ -6,6 +6,15 @@ Projekt został stworzony w ramach pracy inżynierskiej.
 
 ---
 
+## 🧠 Zbiór danych i skuteczność modeli
+
+Do wytrenowania modeli wykorzystano zbiór danych składający się łącznie z **58 372 obrazów** podzielonych na 7 kategorii odpadów.
+
+Aplikacja udostępnia dwa modele sieci neuronowych:
+
+* **Model autorski:** Zaprojektowana od podstaw, głęboka konwolucyjna sieć neuronowa. Po zastosowaniu mechanizmów zapobiegających przeuczeniu (m.in. augmentacja danych, warstwy Dropout) oraz optymalizacji rozdzielczości obrazów, model końcowy osiągnął bardzo dobrą ogólną skuteczność na poziomie **90%** na zbiorze testowym.
+* **ResNet50V2:** Zaawansowany model wykorzystujący bazę konwolucyjną początkowo wytrenowaną na zbiorze ImageNet. Poprzez zastosowanie techniki fine-tuningu polegającej na odmrożeniu i dotrenowaniu 10 ostatnich warstw klasyfikatora, model osiągnął ostateczną skuteczność na poziomie **96%**.
+
 ## 📸 Demo
 
 [demo.webm](https://github.com/user-attachments/assets/0147fc80-cd04-4630-b808-d49f4058ebcc)
