@@ -1,8 +1,14 @@
 # ♻️ Aplikacja webowa do segregacji odpadów i edukacji ekologicznej
 
-Aplikacja webowa oparta na frameworku **Django**, wykorzystująca głębokie sieci neuronowe (**TensorFlow/Keras**) do automatycznej klasyfikacji odpadów i wskazywania odpowiedniego pojemnika do ich utylizacji.
+Aplikacja webowa oparta na frameworku **Django**, wykorzystująca głębokie sieci neuronowe (**TensorFlow/Keras**) do automatycznej klasyfikacji odpadów i wskazywania odpowiedniego pojemnika, gdzie je wyrzucić.
 
 Projekt został stworzony w ramach pracy inżynierskiej.
+
+---
+
+## 📸 Demo
+
+
 
 ---
 
@@ -29,8 +35,8 @@ Aby uruchomić projekt lokalnie, wykonaj poniższe kroki:
 ### 1. Klonowanie repozytorium
 
 ```bash
-git clone https://github.com/MK396/praca_smieci.git
-cd praca_smieci
+git clone https://github.com/MK396/praca_aplikacja_webowa.git
+cd praca_aplikacja_webowa
 ```
 
 ### 2. Konfiguracja środowiska wirtualnego
@@ -52,16 +58,20 @@ cd praca_site
 pip install -r requirements.txt
 ```
 
-### 4. Konfiguracja zmiennych (.env)
+### 4. Konfiguracja zmiennych środowiskowych (.env)
 
-Ze względów bezpieczeństwa plik konfiguracyjny nie jest dołączony do repozytorium.
+Ze względów bezpieczeństwa plik konfiguracyjny `.env` nie jest dołączony do repozytorium.
 
-1. Wejdź do katalogu praca_site (tam, gdzie znajduje się plik manage.py).
-2. Utwórz nowy plik o nazwie .env.
-3. Wklej do niego swój unikalny klucz:
-```bash
-SECRET_KEY = 'twoj_unikalny_klucz_django_mozesz_wpisac_cokolwiek_dlugiego'
-```
+1. W katalogu głównym projektu `praca_site` utwórz nowy plik o nazwie `.env`.
+2. Wygeneruj bezpieczny, losowy klucz kryptograficzny, uruchamiając w terminalu poniższe polecenie:
+   ```bash
+   python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+   ```
+3. Skopiuj wyświetlony w terminalu klucz, otwórz plik .env i dodaj do niego poniższą linijkę:
+   ```bash
+   SECRET_KEY = 'tutaj_wklej_wygenerowany_klucz'
+   ```
+   
 5. Uruchomienie serwera
 
 Będąc w katalogu praca_site uruchom serwer za pomocą poniższego polecenia
