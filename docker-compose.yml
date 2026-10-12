@@ -1,0 +1,9 @@
+services:
+  web:
+    build: .
+    container_name: classifier-app
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
