@@ -1,94 +1,186 @@
 # Aplikacja webowa do segregacji odpadów i edukacji ekologicznej
 
-Aplikacja webowa oparta na frameworku **Django**, wykorzystująca głębokie sieci neuronowe (**TensorFlow/Keras**) do automatycznej klasyfikacji odpadów i wskazywania odpowiedniego pojemnika, gdzie je wyrzucić.
+Aplikacja webowa oparta na **Django**, wykorzystująca głębokie sieci neuronowe (**TensorFlow / Keras**) do automatycznej klasyfikacji odpadów na podstawie zdjęć oraz wskazywania właściwego pojemnika.
 
-Projekt został stworzony w ramach pracy inżynierskiej.
+Projekt powstał w ramach pracy inżynierskiej.
+
+**Aplikacja online:** [https://klasyfikator.mkuzownik.tech/](https://klasyfikator.mkuzownik.tech/)
+
+**Demo:** [demo.webm](https://github.com/user-attachments/assets/0147fc80-cd04-4630-b808-d49f4058ebcc)
 
 ---
 
-## Zbiór danych i skuteczność modeli
+## Spis treści
 
-Do wytrenowania modeli wykorzystano zbiór danych składający się łącznie z **58 372 obrazów** podzielonych na 7 kategorii odpadów.
+- [Opis projektu](#opis-projektu)
+- [Funkcjonalności](#funkcjonalności)
+- [Technologie](#technologie)
+- [Hosting](#hosting)
+- [Struktura projektu](#struktura-projektu)
+- [Architektura](#architektura)
+- [Modele AI](#modele-ai)
 
-Aplikacja udostępnia dwa modele sieci neuronowych:
+---
 
-* **Model autorski:** Zaprojektowana od podstaw, głęboka konwolucyjna sieć neuronowa. Po zastosowaniu mechanizmów zapobiegających przeuczeniu (m.in. augmentacja danych, warstwy Dropout) oraz optymalizacji rozdzielczości obrazów, model końcowy osiągnął bardzo dobrą ogólną skuteczność na poziomie **90%** na zbiorze testowym.
-* **ResNet50V2:** Zaawansowany model wykorzystujący bazę konwolucyjną początkowo wytrenowaną na zbiorze ImageNet. Poprzez zastosowanie techniki fine-tuningu polegającej na odmrożeniu i dotrenowaniu 10 ostatnich warstw klasyfikatora, model osiągnął ostateczną skuteczność na poziomie **96%**.
+## Opis projektu
 
-## Demo
+System łączy klasyfikację obrazów z edukacją ekologiczną. Użytkownik przesyła zdjęcie odpadu, a wybrany model sieci neuronowej zwraca kategorię (np. papier, szkło, bio) wraz z pewnością predykcji. Osobna sekcja edukacyjna wyjaśnia, co wolno, a czego nie wolno wrzucać do poszczególnych pojemników.
 
-[demo.webm](https://github.com/user-attachments/assets/0147fc80-cd04-4630-b808-d49f4058ebcc)
+Aplikacja rozpoznaje **7 kategorii** odpadów:
+
+| Kategoria | Opis |
+|-----------|------|
+| Biodegradowalne | Odpady organiczne |
+| Elektroodpady | Zużyty sprzęt elektryczny |
+| Szkło | Opakowania szklane |
+| Zmieszane | Odpady resztkowe |
+| Papier | Papier, karton, tektura |
+| Metal i tworzywa sztuczne | Metale i plastik |
+| Tekstylia | Odzież i tekstylia |
 
 ---
 
 ## Funkcjonalności
 
-- **Klasyfikacja obrazów:** użytkownik przesyła zdjęcie odpadu, a system rozpoznaje jego kategorię.
-- **Sekcja edukacyjna:** użytkownik ma możliwość sprawdzenia co można wyrzucać do danych pojemników, klikając na ikonkę podpisanego i oznaczonego kolorem kosza.
-- **Modele AI:** możliwość wyboru między modelem autorskim a modelem ResNet50V2 (oba znajdują się w katalogu `classifier/cnn_model`).
+- **Klasyfikacja obrazów** — przesyłanie jednego lub wielu zdjęć; wynik z kategorią i pewnością modelu
+- **Wybór modelu AI** — model autorski (CNN) lub ResNet50V2 (fine-tuning)
+- **Sekcja edukacyjna** — interaktywne pojemniki z listą odpadów dozwolonych i zakazanych
+- **Responsywny interfejs** — nawigacja z obsługą urządzeń mobilnych
+
+| Ścieżka | Opis |
+|---------|------|
+| `/` | Strona główna |
+| `/klasyfikacja/` | Rozpoznawanie odpadów ze zdjęć |
+| `/segregacja/` | Edukacja — zasady segregacji |
 
 ---
 
 ## Technologie
 
-- **Backend:** Python 3.12, Django  
-- **AI/ML:** TensorFlow, Keras, NumPy  
-- **Frontend:** HTML, CSS  
+| Warstwa | Stack |
+|---------|--------|
+| Backend | Python 3.11+, Django 5.2 |
+| AI / ML | TensorFlow 2.20, Keras, NumPy, Pillow, OpenCV |
+| Frontend | HTML, CSS (szablony Django) |
+| Produkcja | Gunicorn, WhiteNoise, Docker |
+| Konfiguracja | `python-decouple` (`.env`) |
+| Baza danych | SQLite |
 
 ---
 
-## Instrukcja uruchomienia
+## Hosting
 
-Aby uruchomić projekt lokalnie, wykonaj poniższe kroki:
+Aplikacja jest dostępna pod adresem **[https://klasyfikator.mkuzownik.tech/](https://klasyfikator.mkuzownik.tech/)**.
 
-### 1. Klonowanie repozytorium
+Hostowana jest na własnym serwerze **Proxmox**, w kontenerze **Docker** (Gunicorn + WhiteNoise), z konfiguracją proxy / Cloudflare (HTTPS, `CSRF_TRUSTED_ORIGINS`, `SECURE_PROXY_SSL_HEADER`).
 
-Ponieważ projekt zawiera modele sztucznej inteligencji ważące ponad 100 MB, do ich prawidłowego pobrania wymagany jest **Git LFS (Large File Storage)**. 
+---
 
-Upewnij się, że masz go zainstalowanego, aktywuj go, a następnie sklonuj projekt:
+## Struktura projektu
 
-```bash
-git lfs install
-git clone https://github.com/MK396/praca_aplikacja_webowa.git
-cd praca_aplikacja_webowa
+```
+praca_aplikacja_webowa/
+├── docker-compose.yml          # Orkiestracja kontenera
+├── Dockerfile                  # Obraz produkcyjny (Gunicorn)
+├── requirements.txt            # Zależności Pythona
+├── README.md
+└── praca_site/                 # Projekt Django
+    ├── manage.py
+    ├── praca_site/             # Konfiguracja projektu
+    │   ├── settings.py
+    │   ├── urls.py
+    │   ├── views.py            # Strona główna
+    │   ├── wsgi.py
+    │   └── asgi.py
+    ├── classifier/             # Aplikacja klasyfikacji AI
+    │   ├── views.py
+    │   ├── urls.py
+    │   ├── templates/classifier/
+    │   └── cnn_model/
+    │       ├── predict.py              # Ładowanie modeli i inferencja
+    │       ├── my_best_model_7.keras   # Model autorski (~73 MB)
+    │       └── resnet50_best_3.keras   # ResNet50V2 (~120 MB)
+    ├── segregation/            # Aplikacja edukacyjna
+    │   ├── views.py
+    │   ├── urls.py
+    │   └── templates/
+    ├── templates/              # Szablony globalne
+    │   ├── layout.html
+    │   └── homepage.html
+    └── static/                 # CSS, ikony pojemników
+        ├── css/style.css
+        └── images/bins/
 ```
 
-### 2. Konfiguracja środowiska wirtualnego
+> Modele `.keras` (łącznie ok. **190 MB**) są przechowywane przez **Git LFS**.
 
-#### Windows:
-```bash
-python -m venv .venv
-.venv\Scripts\activate
+---
+
+## Architektura
+
+### Przepływ żądania
+
 ```
-#### macOS/Linux:
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
+Przeglądarka
+    │
+    ▼
+Django (URLconf: praca_site/urls.py)
+    │
+    ├── /                → homepage (praca_site.views)
+    ├── /klasyfikacja/   → classifier.views.classify_image
+    │                         │
+    │                         ▼
+    │                    cnn_model.predict.predict_image
+    │                         │
+    │                         ├── Model autorski (256×256, normalizacja /255)
+    │                         └── ResNet50V2 (128×128, preprocess_input)
+    │
+    └── /segregacja/     → segregation.views.main_page
+                              (szablon + JS z listami odpadów)
 ```
 
-### 3. Instalacja zależności
-```bash
-cd praca_site
-pip install -r requirements.txt
+### Aplikacje Django
+
+| Aplikacja | Rola |
+|-----------|------|
+| `praca_site` | Konfiguracja projektu, strona główna, routing główny |
+| `classifier` | Upload obrazów, wybór modelu, inferencja CNN, prezentacja wyników |
+| `segregation` | Interaktywna sekcja edukacyjna o pojemnikach |
+
+### Warstwa AI
+
+1. Przy imporcie modułu `predict.py` oba modele `.keras` są ładowane do pamięci.
+2. Widok `classify_image` przyjmuje pliki (`multipart/form-data`), skaluje podgląd i wywołuje `predict_image`.
+3. Wynik (etykieta + pewność w %) oraz podgląd obrazu (Base64) wracają do szablonu.
+
+### Frontend
+
+- Szablon bazowy `layout.html` (nawigacja, hamburger menu)
+- Style w `static/css/style.css`
+- Grafiki pojemników w `static/images/bins/`
+- Pliki statyczne w produkcji serwowane przez **WhiteNoise**
+
+### Wdrożenie
+
+```
+Internet → Cloudflare (HTTPS) → Proxmox → Docker (Gunicorn :8000)
 ```
 
-### 4. Konfiguracja zmiennych środowiskowych (.env)
-1. Upewnij się, że znajdujesz się w katalogu `praca_site` (tam, gdzie plik `manage.py`).
-2. Uruchom poniższe polecenie, aby wygenerować bezpieczny klucz kryptograficzny, utworzyć plik `.env` i od razu go w nim zapisać:
+Kontener budowany z `Dockerfile` / `docker-compose.yml`: obraz `python:3.11-slim`, `collectstatic`, Gunicorn (1 worker).
 
-**Dla Windows:**
-```bash
-python -c "from django.core.management.utils import get_random_secret_key; open('.env', 'w').write(f'SECRET_KEY=\'{get_random_secret_key()}\'\n')"
-```
-**Dla macOS/Linux:**
-```bash
-python3 -c "from django.core.management.utils import get_random_secret_key; open('.env', 'w').write(f'SECRET_KEY=\'{get_random_secret_key()}\'\n')"
-```
-   
-### 5. Uruchomienie serwera
+---
 
-Będąc w katalogu praca_site uruchom serwer za pomocą poniższego polecenia
-```bash
-python manage.py runserver
-```
-Aplikacja będzie dostępna pod adresem: http://127.0.0.1:8000/
+## Modele AI
+
+Do treningu wykorzystano zbiór **58 372 obrazów** w 7 klasach.
+
+| Model | Plik | Wejście | Skuteczność (test) | Opis |
+|-------|------|---------|-------------------|------|
+| Autorski CNN | `my_best_model_7.keras` | 256×256 | **~90%** | Sieć konwolucyjna od podstaw; Dropout, augmentacja |
+| ResNet50V2 | `resnet50_best_3.keras` | 128×128 | **~96%** | Fine-tuning (odmrożenie ostatnich warstw) na bazie ImageNet |
+
+---
+
+## Licencja / autor
+
+Projekt akademicki (praca inżynierska). Repozytorium: [MK396/praca_aplikacja_webowa](https://github.com/MK396/praca_aplikacja_webowa).
