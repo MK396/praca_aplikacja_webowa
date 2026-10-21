@@ -78,6 +78,9 @@ Hostowana jest na własnym serwerze **Proxmox**, w kontenerze **Docker** (Gunico
 
 ## Struktura projektu
 
+<details>
+<summary>Rozwiń pełną strukturę katalogów</summary>
+
 ```
 praca_aplikacja_webowa/
 ├── docker-compose.yml          # Orkiestracja kontenera
@@ -111,6 +114,8 @@ praca_aplikacja_webowa/
         ├── css/style.css
         └── images/bins/
 ```
+
+</details>
 
 > Modele `.keras` (łącznie ok. **190 MB**) są przechowywane przez **Git LFS**.
 
@@ -180,7 +185,3 @@ Do treningu wykorzystano zbiór **58 372 obrazów** w 7 klasach.
 | ResNet50V2 | `resnet50_best_3.keras` | 128×128 | **~96%** | Fine-tuning (odmrożenie ostatnich warstw) na bazie ImageNet |
 
 ---
-
-## Licencja / autor
-
-Projekt akademicki (praca inżynierska). Repozytorium: [MK396/praca_aplikacja_webowa](https://github.com/MK396/praca_aplikacja_webowa).
