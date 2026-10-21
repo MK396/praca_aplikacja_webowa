@@ -6,7 +6,9 @@ Projekt powstał w ramach pracy inżynierskiej.
 
 **Aplikacja online:** [https://klasyfikator.mkuzownik.tech/](https://klasyfikator.mkuzownik.tech/)
 
-**Demo:** [demo.webm](https://github.com/user-attachments/assets/0147fc80-cd04-4630-b808-d49f4058ebcc)
+**Demo:** 
+
+[demo.webm](https://github.com/user-attachments/assets/0147fc80-cd04-4630-b808-d49f4058ebcc)
 
 ---
 
