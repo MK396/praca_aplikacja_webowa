@@ -142,10 +142,9 @@ flowchart TB
   user -->|HTTPS| cf
   cf -->|HTTP :8000| web
   web --> static
-  web -->|"/klasyfikacja/"| models
-  web -->|"/" i "/segregacja/"| static
+  web -->|klasyfikacja| models
+  web -->|strona glowna i segregacja| static
 ```
-
 ### Aplikacje
 
 | Część | Rola |
