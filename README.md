@@ -127,30 +127,30 @@ praca_aplikacja_webowa/
 
 ### Przepływ żądania
 
-```
-Przeglądarka
-    │
-    ▼
-Django (URLconf: praca_site/urls.py)
-    │
-    ├── /                → homepage (praca_site.views)
-    ├── /klasyfikacja/   → classifier.views.classify_image
-    │                         │
-    │                         ▼
-    │                    cnn_model.predict.predict_image
-    │                         │
-    │                         ├── Model autorski (256×256, normalizacja /255)
-    │                         └── ResNet50V2 (128×128, preprocess_input)
-    │
-    └── /segregacja/     → segregation.views.main_page
-                              (szablon + JS z listami odpadów)
+```mermaid
+flowchart TB
+  user[Przeglądarka]
+  cf[Cloudflare]
+  subgraph host [Serwer Proxmox]
+    subgraph compose [Docker]
+      web["web<br/>Django + Gunicorn"]
+      static["WhiteNoise<br/>pliki statyczne"]
+      models[("Modele .keras<br/>autorski + ResNet50V2")]
+    end
+  end
+
+  user -->|HTTPS| cf
+  cf -->|HTTP :8000| web
+  web --> static
+  web -->|"/klasyfikacja/"| models
+  web -->|"/" i "/segregacja/"| static
 ```
 
-### Aplikacje Django
+### Aplikacje
 
-| Aplikacja | Rola |
-|-----------|------|
-| `praca_site` | Konfiguracja projektu, strona główna, routing główny |
+| Część | Rola |
+|-------|------|
+| `praca_site` | Ustawienia, routing, strona główna, bezpieczeństwo za proxy |
 | `classifier` | Upload obrazów, wybór modelu, inferencja CNN, prezentacja wyników |
 | `segregation` | Interaktywna sekcja edukacyjna o pojemnikach |
 
@@ -158,13 +158,13 @@ Django (URLconf: praca_site/urls.py)
 
 1. Przy imporcie modułu `predict.py` oba modele `.keras` są ładowane do pamięci.
 2. Widok `classify_image` przyjmuje pliki (`multipart/form-data`), skaluje podgląd i wywołuje `predict_image`.
-3. Wynik (etykieta + pewność w %) oraz podgląd obrazu (Base64) wracają do szablonu.
+3. Model autorski: wejście **256×256**, normalizacja `/255`; ResNet50V2: wejście **128×128**, `preprocess_input`.
+4. Wynik (etykieta + pewność w %) oraz podgląd obrazu (Base64) wracają do szablonu.
 
 ### Frontend
 
-- Szablon bazowy `layout.html` (nawigacja, hamburger menu)
-- Style w `static/css/style.css`
-- Grafiki pojemników w `static/images/bins/`
+- Szablony Django: baza `layout.html` (nawigacja, hamburger menu), strona główna, klasyfikacja, segregacja
+- Style w `static/css/style.css`, grafiki pojemników w `static/images/bins/`
 - Pliki statyczne w produkcji serwowane przez **WhiteNoise**
 
 ### Wdrożenie
